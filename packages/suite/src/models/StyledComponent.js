@@ -31,7 +31,7 @@ const THEME_PROP_R = /\.theme[.[]/;
 const identifiers = {};
 
 /* We depend on components having unique IDs */
-function generateId(displayName: string, parentComponentId: string) {
+export function generateId(displayName: string, parentComponentId: string) {
   const name = typeof displayName !== 'string' ? 'sc' : escape(displayName);
   // Ensure that no displayName can lead to duplicate componentIds
   identifiers[name] = (identifiers[name] || 0) + 1;

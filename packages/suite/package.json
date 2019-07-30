@@ -1,6 +1,6 @@
 {
-  "name": "styled-components",
-  "version": "5.0.0-beta.8",
+  "name": "suite",
+  "version": "0.0.1",
   "description": "Visual primitives for the component age. Use the best bits of ES6 and CSS to style your apps without stress",
   "main": "dist/styled-components.cjs.js",
   "jsnext:main": "dist/styled-components.esm.js",
@@ -15,7 +15,6 @@
     "generateErrors": "node scripts/generateErrorMap.js",
     "prebuild": "rimraf dist && npm run generateErrors",
     "build": "rollup -c",
-    "postbuild": "npm run lint:size",
     "flow": "flow check",
     "flow:watch": "flow-watch",
     "pretest": "npm run generateErrors",

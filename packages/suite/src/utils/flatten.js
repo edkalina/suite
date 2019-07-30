@@ -65,6 +65,16 @@ export default function flatten(chunk: any, executionContext: ?Object, styleShee
     return `.${chunk.styledComponentId}`;
   }
 
+  /* Handle css styles */
+  if (chunk.componentStyle) {
+    return `.${chunk.componentStyle.componentId}`;
+  }
+
+  /* Handle css fragment */
+  if (chunk.rules) {
+    return flatten(chunk.rules, executionContext, styleSheet);
+  }
+
   /* Either execute or defer the function */
   if (isFunction(chunk)) {
     if (isStatelessFunction(chunk) && executionContext) {
