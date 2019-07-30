@@ -11,6 +11,7 @@ module.exports = () => ({
         modules,
       },
     ],
+    '@babel/preset-react',
     '@babel/preset-flow',
   ],
   plugins: [
