@@ -8,14 +8,14 @@ import styled from './constructors/styled';
 import ComponentStyle from './models/ComponentStyle';
 import { generateId } from './models/StyledComponent';
 import StyleSheetManager, { useStyleSheet } from './models/StyleSheetManager';
-import { ThemeContext } from './models/ThemeProvider';
+import ThemeProvider, { ThemeContext } from './models/ThemeProvider';
 
 import createWarnTooManyClasses from './utils/createWarnTooManyClasses';
 import { EMPTY_OBJECT } from './utils/empties';
 
 import type { RuleSet } from './types';
 
-export { styled, keyframes, StyleSheetManager, createGlobalStyle };
+export { styled, keyframes, StyleSheetManager, createGlobalStyle, ThemeProvider };
 
 export function useSuite() {
   const cssClassCache = useRef({});
