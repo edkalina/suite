@@ -92,10 +92,14 @@ export function useSuite() {
       throw new Error('Fragemnt should be idetified');
     }
 
-    const cssClass = getCSSClassForFragemnt(fragment);
-    const classNameValue = generateAndInjectStyles(cssClass, props);
-
-    return [tag, { ...props, className: classNameValue }, ...children];
+    return [
+      tag,
+      {
+        ...props,
+        className: getClassName([getCSSClassForFragemnt(fragment), props && props.className], props)
+      },
+      ...children
+    ];
   };
 
   return { className, classProps, style };
