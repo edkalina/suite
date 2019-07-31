@@ -1,5 +1,5 @@
 import React from "react";
-import { css, useSuite } from "suite";
+import { css, useSuite, ThemeProvider } from "suite";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import { GlobalStyle } from "./styles";
@@ -7,8 +7,9 @@ import { GlobalStyle } from "./styles";
 import { Header } from "./Header";
 import { Home } from "./Home";
 import { Page } from "./Page";
-import { About } from "./About";
-import { Contacts } from "./Contacts";
+import { Suite } from "./Suite";
+import { Unsuite } from "./Unsuite";
+import { StyledSystem } from "./StyledSystem";
 
 const appStyle = css`
   text-align: center;
@@ -18,20 +19,29 @@ const appStyle = css`
   font-size: calc(10px + 2vmin);
 `
 
+const theme = {
+  colors: {
+    primary: 'palegreen'
+  }
+}
+
 function App() {
   const { className } = useSuite();
 
   return (
-    <Router>
-      <GlobalStyle />
-      <div @className={appStyle}>
-        <Header />
-        <Route exact path="/" component={Home} />
-        <Route exact path="/page" component={Page} />
-        <Route exact path="/about" component={About} />
-        <Route exact path="/contacts" component={Contacts} />
-      </div>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <GlobalStyle />
+        <div @className={appStyle}>
+          <Header />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/page" component={Page} />
+          <Route exact path="/suite" component={Suite} />
+          <Route exact path="/unsuite" component={Unsuite} />
+          <Route exact path="/styled-system" component={StyledSystem} />
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

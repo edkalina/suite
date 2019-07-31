@@ -105,6 +105,108 @@ export function useSuite() {
   return { className, classProps, style };
 }
 
+export function useUnsuite(options) {
+  const cssClassRef = useRef(null);
+  const styleSheet = useStyleSheet();
+  const theme = useContext(ThemeContext);
+
+  if (!cssClassRef.current && options && options.componentId) {
+    cssClassRef.current = createCSSClass(new ComponentStyle([], options.componentId))
+  }
+
+  function generateAndInjectStyles(cssClass, props) {
+    const { componentStyle, params } = cssClass;
+    const { isStatic, componentId } = componentStyle;
+
+    const classNameValue = isStatic
+      ? componentStyle.generateAndInjectStyles(EMPTY_OBJECT, styleSheet)
+      : componentStyle.generateAndInjectStyles(
+          { ...params, theme, props: props || EMPTY_OBJECT },
+          styleSheet
+        );
+
+    if (process.env.NODE_ENV !== 'production' && !isStatic && cssClass.warnTooManyClasses) {
+      cssClass.warnTooManyClasses(classNameValue);
+    }
+
+    return `${componentId} ${classNameValue}`;
+  }
+
+  function getClassName(arg) {
+    if (Array.isArray(arg)) {
+      return (
+        arg
+          .map(cc => getClassName(cc))
+          .filter(Boolean)
+          .join(' ') || undefined
+      );
+    }
+
+    if (!arg || arg === true) {
+      return undefined;
+    }
+
+    if (arg.componentStyle) {
+      return generateAndInjectStyles(arg);
+    }
+
+    if (arg.rules) {
+      if (!cssClassRef.current) {
+        throw new Error('Provide componentId to use fragments');
+      }
+      cssClassRef.current.componentStyle.rules = arg.rules;
+      return generateAndInjectStyles(cssClassRef.current);
+    }
+
+    return arg;
+  }
+
+  const suite = (...classes) => {
+    return getClassName(classes)
+  };
+
+  return suite;
+}
+
+export function useStyledSystem(options) {
+  const cssClassRef = useRef(null);
+  const styleSheet = useStyleSheet();
+  const theme = useContext(ThemeContext);
+
+  if (!options || !options.componentId) {
+    throw new Error('Provide componentId to useStyledSystem');
+  }
+
+  if (!cssClassRef.current) {
+    cssClassRef.current = createCSSClass(new ComponentStyle([], options.componentId))
+  }
+
+  function generateAndInjectStyles(cssClass, props) {
+    const { componentStyle, params } = cssClass;
+    const { isStatic, componentId } = componentStyle;
+
+    const classNameValue = isStatic
+      ? componentStyle.generateAndInjectStyles(EMPTY_OBJECT, styleSheet)
+      : componentStyle.generateAndInjectStyles(
+          { ...params, theme, props: props || EMPTY_OBJECT },
+          styleSheet
+        );
+
+    if (process.env.NODE_ENV !== 'production' && !isStatic && cssClass.warnTooManyClasses) {
+      cssClass.warnTooManyClasses(classNameValue);
+    }
+
+    return `${componentId} ${classNameValue}`;
+  }
+
+  const ss = (...chunks) => {
+    cssClassRef.current.componentStyle.rules = chunks;
+    return generateAndInjectStyles(cssClassRef.current);
+  };
+
+  return ss;
+}
+
 function createFragment(rules: RuleSet, config) {
   return { rules, config };
 }

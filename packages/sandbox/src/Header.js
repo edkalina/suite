@@ -22,8 +22,9 @@ export function Header() {
     <header @className={headerCSS}>
       <a @href="/">Home</a>
       <a @href="/page">Page</a>
-      <a @href="/about">About</a>
-      <a @href="/contacts">Contacts</a>
+      <a @href="/suite">Suite</a>
+      <a @href="/unsuite">Unsuite</a>
+      <a @href="/styled-system">StyledSystem</a>
     </header>
   );
 }
