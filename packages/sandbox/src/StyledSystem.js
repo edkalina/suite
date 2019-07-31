@@ -5,6 +5,13 @@ import { space, layout, border, color } from 'styled-system';
 
 console.log(space({ mx: '15px' }));
 
+function marginX(value) {
+  return {
+    marginLeft: value,
+    marginRight: value,
+  }
+}
+
 function SubComponent({ value }) {
   const ss = useStyledSystem({ componentId: 'SubComponent' });
 
@@ -12,6 +19,7 @@ function SubComponent({ value }) {
     <div>
       <div
         className={ss(
+          marginX('20px'),
           space({ mx: '15px' }),
           layout({ size: '40px' }),
           border({ borderX: '1px solid gold', borderY: '1px dashed skyblue' }),
